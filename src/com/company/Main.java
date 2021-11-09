@@ -3,13 +3,11 @@ package com.company;
 import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         boolean valid = false;
         float total = 0;
         String pizza = "";
-        int toppingsNum =0;
         Hashtable<String, Float> pizzas = new Hashtable<String, Float>();
         pizzas.put("small", 7.99f);pizzas.put("medium", 10.99f);pizzas.put("large", 13.99f);
         while (!valid) {
@@ -27,44 +25,73 @@ public class Main {
             }
             if (!valid) {
                 System.out.println("Not a valid size");
-
             }
         }
         valid=false;
-        while(!valid) {
-            System.out.println("You can get up to 10 toppings, How many do you want?");
-            try {
-                toppingsNum = input.nextInt();
-                if(toppingsNum >=0 && toppingsNum <=10){
-                    valid=true;
-                }
-                if(toppingsNum >=2){
-                    total= (float)(total+(toppingsNum -2)*1.25);
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-                input.next();
-            }
-        }
-        String toppings[]= new String[toppingsNum];
-        for (int i = 0; i < toppingsNum; i++) {
+        String temp="";
+        String[] toppings= {"pepperoni","cheese","mushrooms","onions","bacon","green peppers","spinach","black olives",
+        "sausage","pineapple"};
+        int[] toppingsnum= new int[10];
+        ArrayList<String> usertoppings= new ArrayList<>();
+        boolean found=false;
             do{
                 try{
-                    System.out.println("Insert topping: ");
-                    toppings[i]=input.next();
-                    valid=true;
+                    System.out.println("type help to get a list of toppings, type end if you're satisfied.\n"
+                    +"Insert topping: ");
+                    temp=input.next();
                 }catch(Exception e){
                     System.out.println(e);
                     input.next();
-                    valid=false;
                 }
+                if(temp.equalsIgnoreCase("end")){
+                    valid=true;
+                }
+                else if(temp.equalsIgnoreCase("help")){
+                    System.out.println("List of our toppings: ");
+                    for (int i = 0; i < toppings.length; i++) {
+                        System.out.print(toppings[i]+", ");
+                    }
+                    System.out.println();
+                }
+                else{
+                    for (int i = 0; i < toppings.length; i++) {
+                        if(toppings[i].equalsIgnoreCase(temp)){
+                            found=true;
+                            if(toppingsnum[i]<2){
+                                usertoppings.add(temp.toLowerCase(Locale.ROOT));
+                                toppingsnum[i]++;
+                                System.out.println("topping added to your pizza");
+                            }
+                            else{
+                                System.out.println("You selected this topping too many times");
+                            }
+                        }
+                    }
+                    if(!found){
+                        System.out.println("Not one of our toppings");
+                    }
+                    else{
+                        found=false;
+                    }
+                }
+
             }while(!valid);
-        }System.out.println("List of your toppings: ");
-        for (int i = 0; i < toppingsNum; i++) {
-            System.out.print(toppings[i]+", ");
-
+            usertoppings.stream().sorted();
+            if(usertoppings.size()>=2){
+                total+=(usertoppings.size()-2)*1.25;
+            }
+        for (int i = 0; i < usertoppings.size(); i++) {
+            for (int j = 0; j < usertoppings.size(); j++) {
+                if(usertoppings.get(i).equals(usertoppings.get(j)) &&  i!=j){
+                    usertoppings.remove(j);
+                }
+            }
         }
+            System.out.println("List of your toppings: ");
+            for (int i = 0; i < usertoppings.size(); i++) {
+                System.out.print(usertoppings.get(i)+"\n");
+            }
+            System.out.println();
         System.out.println("the total cost is: "+total);
-
     }
 }
