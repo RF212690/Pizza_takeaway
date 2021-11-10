@@ -78,7 +78,7 @@ public class Main {
             }while(!valid && usertoppings.size()<20);
             usertoppings.stream().sorted();
             If(usertoppings.size()==20){
-            System.out.println("You inserted the maximum amount of toppings")
+            System.out.println("You inserted the maximum amount of toppings");
             }
             if(usertoppings.size()>=2){
                 total+=(usertoppings.size()-2)*1.25;
