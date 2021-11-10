@@ -75,14 +75,17 @@ public class Main {
                     }
                 }
 
-            }while(!valid);
+            }while(!valid && usertoppings.size()<20);
             usertoppings.stream().sorted();
+            If(usertoppings.size()==20){
+            System.out.println("You inserted the maximum amount of toppings")
+            }
             if(usertoppings.size()>=2){
                 total+=(usertoppings.size()-2)*1.25;
             }
         for (int i = 0; i < usertoppings.size(); i++) {
-            for (int j = 0; j < usertoppings.size(); j++) {
-                if(usertoppings.get(i).equals(usertoppings.get(j)) &&  i!=j){
+            for (int j = i+1; j < usertoppings.size(); j++) {
+                if(usertoppings.get(i).equals(usertoppings.get(j))){
                     usertoppings.remove(j);
                 }
             }
